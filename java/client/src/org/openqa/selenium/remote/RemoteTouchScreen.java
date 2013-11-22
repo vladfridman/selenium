@@ -94,4 +94,33 @@ public class RemoteTouchScreen implements TouchScreen {
     flickParams.put("speed", speed);
     executeMethod.execute(DriverCommand.TOUCH_FLICK, flickParams);
   }
+
+  public void drag(Coordinates start, Coordinates end, int steps) {
+    int dx = end.onScreen().getX() - start.onScreen().getX();
+    int dy = end.onScreen().getY() - start.onScreen().getY();
+    int stepX = dx / steps;
+    int reminderX = dx % steps;
+    int signumX = (int) Math.signum(dx);
+    int currentX = start.onScreen().getX();
+    int stepY = dy / steps;
+    int reminderY = dy % steps;
+    int signumY = (int) Math.signum(dy);
+    int currentY = start.onScreen().getY();
+    
+    down(currentX, currentY);
+    for (int i = 0; i < steps; ++i) {
+      currentX += stepX;
+      if (reminderX != 0) {
+        currentX += signumX;
+        reminderX -= signumX;
+      }
+      currentY += stepY;
+      if (reminderY != 0) {
+        currentY += signumY;
+        reminderY -= signumY;
+      }
+      move(currentX, currentY);
+    }
+    up(currentX, currentY);
+  }
 }

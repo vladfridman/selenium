@@ -103,4 +103,13 @@ public interface TouchScreen {
    * @param yOffset The y offset relative to the viewport
    */
   void flick(Coordinates where, int xOffset, int yOffset, int speed);
+
+  /**
+   * Allows the execution of slow drag from start to end
+   * 
+   * @param start Where to start the drag movement
+   * @param end Where to end the drag movement
+   * @param steps Number of move steps that this movement should consist of.
+   */
+  void drag(Coordinates start, Coordinates end, int steps);
 }
